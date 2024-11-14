@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/corpusfit"; // Cambia 'corpusfit_db' por el nombre de tu base de datos
-    private static final String USER = "root"; // Cambia 'root' por tu usuario de MySQL
+    private static final String USER = "root"; // Cambias 'root' por tu usuario de MySQL
     private static final String PASSWORD = ""; // Coloca aquí tu contraseña de MySQL
 
     public static Connection getConnection() throws SQLException {
