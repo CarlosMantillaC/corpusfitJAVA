@@ -30,6 +30,6 @@ public class DatabaseConnection {
             e.printStackTrace();
             throw e;
         }
-        return connection;
+        return connection; //XD
     }
 }
