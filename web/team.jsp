@@ -49,7 +49,7 @@
                     <div class="col-lg-4 col-sm-6">
                         <div class="ts-item set-bg" data-setbg="img/team/team-1.jpg">
                             <div class="ts_text">
-                                <h4>Selena Ahuilar</h4>
+                                <h4>Selena Aguilar</h4>
                                 <span>Entrenadora</span>
 
                             </div>

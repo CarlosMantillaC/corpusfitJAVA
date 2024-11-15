@@ -5,30 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="DatabaseConnection.LoginDAO" %>
-<%@ page import="DatabaseConnection.DatabaseConnection" %>
-<%@ page import="java.io.IOException" %>
-<%
-    String email = request.getParameter("email");
-    String password = request.getParameter("password");
-    String errorMessage = null;
-    
-    if (email != null && password != null) {
-        LoginDAO loginDAO = new LoginDAO();
-        String role = loginDAO.validateUser(email, password);
-
-        if (role != null) {
-            if ("administrador".equals(role)) {
-                response.sendRedirect("adminDashboard.jsp"); // Página para administradores
-            } else if ("cliente".equals(role)) {
-                response.sendRedirect("clientDashboard.jsp"); // Página para clientes
-            }
-        } else {
-            errorMessage = "Credenciales incorrectas. Por favor, inténtalo de nuevo.";
-        }
-    }
-%>
-
+<%@page import="DatabaseConnection.*" %>
 <!DOCTYPE html>
 <html>
     <jsp:include page="head.jsp"/>    
@@ -50,13 +27,12 @@
                         <img src="img/logo.png" alt="logo" class="logo">
                       </div>
                       <p class="login-card-description">Inicia sesión en tu cuenta</p>
-                      <% if (errorMessage != null) { %>
-                          <p style="color: red;"><%= errorMessage %></p>
-                      <% } %>
-                      <form action="login.jsp" method="post">
+                      
+                      
+                      <form action="LoginServlet" method="post">
                         <div class="form-group">
-                          <label for="email" class="sr-only">Usuario</label>
-                          <input type="email" name="email" id="email" class="form-control" placeholder="Correo electrónico">
+                          <label for="username" class="sr-only">Usuario</label>
+                          <input type="email" name="username" id="username" class="form-control" placeholder="Correo electrónico">
                         </div>
                         <div class="form-group mb-4">
                           <label for="password" class="sr-only">Contraseña</label>
