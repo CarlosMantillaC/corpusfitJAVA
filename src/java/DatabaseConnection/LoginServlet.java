@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("ROLE", rs.getString("rol"));
                 
                 // Redirigir a la página principal
-                response.sendRedirect("adminDashboard.jsp");
+                response.sendRedirect("rolPage.jsp");
             } else {
                 // Redirigir a la página de login si las credenciales no son válidas
                 response.sendRedirect("login.jsp");
