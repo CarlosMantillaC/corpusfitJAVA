@@ -18,11 +18,16 @@
 %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
+    <!-- Incluir el head -->
+    <jsp:include page="head.jsp"/>
+    <jsp:include page="menu.jsp"/>
+
     <body>
-        <h1>Hello World! ad</h1>
+        <!-- Incluir el menú -->
+        
+        <main>
+            <h1>Bienvenido al sistema Corpusfit</h1>
+            <p>Contenido principal de la página aquí.</p>
+        </main>
     </body>
 </html>
