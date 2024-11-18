@@ -13,7 +13,7 @@
                 <div class="col-lg-6">
                     <div class="fs-about">
                         <div class="fa-logo mb-3">
-                            <a href="#"><img src="img/logo.png" alt="" class="img-fluid"></a>
+                            <a href="#"><img src="${pageContext.request.contextPath}/img/logo.png" alt="" class="img-fluid"></a>
                         </div>
                         <p>Es fundamental cuidar a cada persona y seguir su proceso de entrenamiento,
                             especialmente en los momentos más desafiantes. Durante estos, puede surgir incomodidad,
@@ -46,10 +46,11 @@
     <!-- Search model end -->
 
     <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/masonry.pkgd.min.js"></script>
-    <script src="js/jquery.barfiller.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/main.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery.magnific-popup.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/masonry.pkgd.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery.barfiller.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery.slicknav.js"></script>
+    <script src="${pageContext.request.contextPath}/js/owl.carousel.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/main.js"></script>

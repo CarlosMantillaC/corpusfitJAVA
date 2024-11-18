@@ -49,8 +49,8 @@ public class LoginServlet extends HttpServlet {
             con.ConexionBdMySQL();
             
             // Consulta SQL para verificar las credenciales
-            String sql = "SELECT COUNT(username), username, rol FROM login WHERE username = '" 
-                          + username + "' AND password = '" + password + "' GROUP BY username, rol";
+            String sql = "SELECT COUNT(username), username, rol, nombre FROM login WHERE username = '" 
+                          + username + "' AND password = '" + password + "' GROUP BY username, rol, nombre";
             ResultSet rs = con.consultar(sql);
             
             if (rs.next() && rs.getInt(1) == 1) {  // Solo una coincidencia es permitida
@@ -58,7 +58,8 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("USER", username);
                 session.setAttribute("ROLE", rs.getString("rol"));
-                
+                session.setAttribute("NOMBRE_USUARIO", rs.getString("nombre")); // Guarda el nombre
+
                 // Redirigir a la página principal
                 response.sendRedirect("rolPage.jsp");
             } else {
