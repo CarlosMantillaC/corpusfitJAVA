@@ -6,6 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/menuadminclien.css" type="text/css">
+<jsp:include page="../head.jsp"/>
+<jsp:include page="menu.jsp"/>
+
+
+
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -32,7 +38,7 @@
     </div>
     <!-- Offcanvas Menu Section End -->
 
-    <!-- Header Section Begin -->
+   <!-- Header Section Begin -->
     <header class="header-section">
         <div class="container-fluid">
             <div class="row">
@@ -47,6 +53,25 @@
                     <nav class="nav-menu">
                         <ul>
                             <li><a href="./index.jsp">Inicio</a></li>
+                            <!-- Menú desplegable de Clientes -->
+                            <li class="dropdown">
+                                <a href="#">Clientes</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Gestionar Asistencias</a></li>
+                                    <li><a href="gestionarClientes.jsp">Gestionar Clientes</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- Menú desplegable de Actividades -->
+                            <li class="dropdown">
+                                <a href="#">Actividades</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Gestionar Actividades</a></li>
+                                    <li><a href="#">Gestionar Instructores</a></li>
+                                    <li><a href="#">Gestionar Horarios</a></li>
+                                </ul>
+                            </li>
+                            
                             <li><a href="../login.jsp">Cerrar Sesión</a></li>
 
                         </ul>
@@ -58,4 +83,5 @@
             </div>
         </div>
     </header>
+<!-- Header End -->
     <!-- Header End -->

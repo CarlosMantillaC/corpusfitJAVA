@@ -23,11 +23,12 @@
     <jsp:include page="menu.jsp"/>
     <title>Corpusfit - Admin</title>
 
+
     <body>
         <!-- Hero Section Begin-->
         <section class="hero-section">
             <div class="hs-slider owl-carousel">
-                <div class="hs-item" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 1) 100%), url('../img/hero/admin-1.jpg') center/cover no-repeat;">
+               <div class="hs-item" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 1) 100%), url('../img/hero/admin-1.jpg') center/cover no-repeat;">
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-6 offset-lg-6">
