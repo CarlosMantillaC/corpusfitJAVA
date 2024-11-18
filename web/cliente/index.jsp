@@ -18,11 +18,36 @@
 %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
+    <!-- Incluir el head -->
+    <jsp:include page="../head.jsp"/>
+    <jsp:include page="menu.jsp"/>
+    <title>Corpusfit - Cliente </title>
+
     <body>
-        <h1>Hello World! cl</h1>
+        <!-- Hero Section Begin-->
+        <section class="hero-section">
+            <div class="hs-slider owl-carousel">
+                <div class="hs-item" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 1) 100%), url('../img/hero/cliente-1.jpg') center/cover no-repeat;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6 offset-lg-6">
+                                <div class="hi-text">
+                                    <h1>¡Bienvenido <strong><%= session_actual.getAttribute("NOMBRE_USUARIO") %></strong>!</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- Hero Section End -->
+     
+
+
+        <jsp:include page="../getintouch.jsp"/>
+        <jsp:include page="../footer.jsp"/>
+        <jsp:include page="../search.jsp"/>
+
     </body>
 </html>
