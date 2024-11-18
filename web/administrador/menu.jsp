@@ -7,9 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/menuadminclien.css" type="text/css">
-<jsp:include page="../head.jsp"/>
-<jsp:include page="menu.jsp"/>
-
 
 
     <!-- Page Preloder -->

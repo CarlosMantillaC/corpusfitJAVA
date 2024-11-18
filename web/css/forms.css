@@ -168,16 +168,17 @@ iframe {
 
 .wrap-contact100 {
     width: 800px;
-    background-color: orange;
+    background-color: white;
     border-radius: 10px;
     overflow: hidden;
     padding: 72px 150px 25px 150px;
 
-    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
-    -o-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
-    -ms-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+
+    box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -moz-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -webkit-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -o-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -ms-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
 }
 
 
@@ -203,6 +204,12 @@ iframe {
     background-color: #fff;
     border-radius: 20px;
     margin-bottom: 30px;
+    border: 2px solid #f36100; /* Borde naranja */
+    box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); /* Sombra más visible */
+    -moz-box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); /* Sombra más visible */
+    -webkit-box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); /* Sombra más visible */
+    -o-box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); /* Sombra más visible */
+    -ms-box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); /* Sombra más visible */
 }
 
 .input100 {
@@ -280,7 +287,7 @@ textarea.input100 {
     padding: 0 20px;
     min-width: 160px;
     height: 42px;
-    background-color: #bd59d4;
+    background-color: #f36100;
     border-radius: 21px;
 
     font-family: JosefinSans-Bold;
@@ -295,20 +302,20 @@ textarea.input100 {
     -moz-transition: all 0.4s;
     transition: all 0.4s;
 
-    box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.5);
-    -moz-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.5);
-    -webkit-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.5);
-    -o-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.5);
-    -ms-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.5);
+    box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -moz-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -webkit-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -o-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -ms-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
 }
 
 .contact100-form-btn:hover {
-    background-color: #4b2354;
-    box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.8);
-    -moz-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.8);
-    -webkit-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.8);
-    -o-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.8);
-    -ms-box-shadow: 0 10px 30px 0px rgba(189, 89, 212, 0.8);
+    background-color: black;
+    box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -moz-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -webkit-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -o-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
+    -ms-box-shadow: 0 10px 30px 0px rgba(243, 97, 0, 0.5); /* Sombra naranja */
 }
 
 @media (max-width: 768px) {
