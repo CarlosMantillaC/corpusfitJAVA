@@ -111,7 +111,7 @@ public class ClienteServlet extends HttpServlet {
                         if (resultSet.next()) {
                             out.println("<h3>Resultados:</h3>");
                             do {
-                                out.println("<p>ID: " + resultSet.getInt("id_miembro")
+                                out.println("<p>Cedula: " + resultSet.getInt("cedula")
                                         + ", Nombre: " + resultSet.getString("nombre")
                                         + ", Teléfono: " + resultSet.getString("telefono")
                                         + ", Email: " + resultSet.getString("email") + "</p>");
