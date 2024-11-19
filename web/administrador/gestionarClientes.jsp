@@ -12,41 +12,51 @@
     <jsp:include page="../head.jsp"/>
     <jsp:include page="menu.jsp"/>
     <title>Corpusfit - Admin</title>
-    
+
     <body oncontextmenu='return false' class='snippet-body'>
 
         <div class="container-contact100">
             <div class="wrap-contact100">
-                <form class="contact100-form validate-form">
+                <form class="contact100-form validate-form" action="../ClienteServlet" method="post">
                     <span class="contact100-form-title">
-                        Contact Us
+                        Registro de Miembros
                     </span>
 
-                    <div class="wrap-input100 validate-input" data-validate="Please enter your name">
-                        <input class="input100" type="text" name="name" placeholder="Full Name" required>
+                    <!-- Nombre -->
+                    <div class="wrap-input100 validate-input" data-validate="Por favor, ingresa tu nombre">
+                        <input class="input100" type="text" name="nombre" placeholder="Nombre Completo" maxlength="100" required>
                         <span class="focus-input100"></span>
                     </div>
 
-                    <div class="wrap-input100 validate-input" data-validate="Please enter email: e@a.x">
-                        <input class="input100" type="text" name="email" placeholder="Email" required>
+                    <!-- Teléfono -->
+                    <div class="wrap-input100 validate-input" data-validate="Por favor, ingresa un número de teléfono válido">
+                        <input class="input100" type="text" name="telefono" placeholder="Teléfono" maxlength="20">
                         <span class="focus-input100"></span>
                     </div>
 
-                    <div class="wrap-input100 validate-input" data-validate="Please enter your message">
-                        <textarea class="input100" name="message" placeholder="Your Message" required></textarea>
+                    <!-- Email -->
+                    <div class="wrap-input100 validate-input" data-validate="Por favor, ingresa un email válido: ejemplo@dominio.com">
+                        <input class="input100" type="email" name="email" placeholder="Correo Electrónico" maxlength="100">
                         <span class="focus-input100"></span>
                     </div>
 
-                    <div class="container-contact100-form-btn">
-                        <button class="contact100-form-btn">
-                            Send Email
+                    <!-- Botones de Acción -->
+                    <div class="container-contact100-form-btn"  style="display: flex; gap: 20px; justify-content: center;">
+                        <button class="contact100-form-btn" type="submit" name="accion" value="registrar">
+                            Registrar
+                        </button>
+                        <button class="contact100-form-btn" type="button" name="accion" value="eliminar"">
+                            Eliminar
+                        </button>
+                        <button class="contact100-form-btn" type="button" name="accion" value="buscar">
+                            Buscar
+                        </button>
+                        <button class="contact100-form-btn" type="reset" name="accion" value="nuevo">
+                            Nuevo
                         </button>
                     </div>
                 </form>
 
-                <div class="contact100-more">
-                    Contact our 24/7 call center: <span class="contact100-more-highlight">+001 345 6889</span>
-                </div>
             </div>
         </div>
 

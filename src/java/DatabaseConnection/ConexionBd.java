@@ -16,7 +16,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ConexionBd {
-    Connection ConexionBd;
+        Connection ConexionBd;
 	Statement sentencia;
 	String usuario, password, iP, puerto, nombreBD;
 
@@ -94,4 +94,10 @@ public class ConexionBd {
 		ConexionBd.close();
 		sentencia.close();
 	}
+        
+            // Método para obtener la conexión (lo que nos falta en tu clase actual)
+        public Connection getConexionBd() {
+            return this.ConexionBd;
+        }
+    
 }
