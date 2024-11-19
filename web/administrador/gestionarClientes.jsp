@@ -22,6 +22,11 @@
                         Registro de Miembros
                     </span>
 
+                    <div class="wrap-input100 validate-input" data-validate="Por favor, ingresa tu cedula">
+                        <input class="input100" type="text" name="cedula" placeholder="Cedula" maxlength="100" required>
+                        <span class="focus-input100"></span>
+                    </div>
+
                     <!-- Nombre -->
                     <div class="wrap-input100 validate-input" data-validate="Por favor, ingresa tu nombre">
                         <input class="input100" type="text" name="nombre" placeholder="Nombre Completo" maxlength="100" required>

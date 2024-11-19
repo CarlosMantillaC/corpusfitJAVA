@@ -51,6 +51,7 @@ public class ClienteServlet extends HttpServlet {
 
         // Acción de registrar un nuevo miembro
         if ("registrar".equalsIgnoreCase(accion)) {
+            String cedula = request.getParameter("cedula");
             String nombre = request.getParameter("nombre");
             String telefono = request.getParameter("telefono");
             String email = request.getParameter("email");
@@ -65,11 +66,12 @@ public class ClienteServlet extends HttpServlet {
                 // Conectar a la base de datos MySQL
                 con.ConexionBdMySQL();
 
-                String query = "INSERT INTO miembros (nombre, telefono, email) VALUES (?, ?, ?)";
+                String query = "INSERT INTO miembros (cedula, nombre, telefono, email) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement statement = con.getConexionBd().prepareStatement(query)) {
-                    statement.setString(1, nombre);
-                    statement.setString(2, telefono);
-                    statement.setString(3, email);
+                    statement.setString(1, cedula);
+                    statement.setString(2, nombre);
+                    statement.setString(3, telefono);
+                    statement.setString(4, email);
 
                     int rowsInserted = statement.executeUpdate();
                     if (rowsInserted > 0) {
