@@ -88,40 +88,43 @@ public class ClienteServlet extends HttpServlet {
             } catch (Exception e) {
                 out.println("<h3>Error inesperado: " + e.getMessage() + "</h3>");
             }
+        }
 
-            // Acción de búsqueda de miembros
-        } else if ("buscar".equalsIgnoreCase(accion)) {
-            String nombre = request.getParameter("nombre");
+        // Acción de buscar un miembro
+        if ("buscar".equalsIgnoreCase(accion)) {
+            String cedula = request.getParameter("cedula");
 
-            if (nombre == null || nombre.isEmpty()) {
-                out.println("<h3>Por favor, ingresa el nombre para buscar.</h3>");
+            if (cedula == null || cedula.isEmpty()) {
+                out.println("<h3>La cédula es obligatoria para buscar.</h3>");
                 return;
             }
 
-            // Realizar la búsqueda en la base de datos por nombre
             try {
                 // Conectar a la base de datos MySQL
                 con.ConexionBdMySQL();
 
-                String query = "SELECT * FROM miembros WHERE nombre LIKE ?";
+                String query = "SELECT * FROM miembros WHERE cedula = ?";
                 try (PreparedStatement statement = con.getConexionBd().prepareStatement(query)) {
-                    statement.setString(1, "%" + nombre + "%");
+                    statement.setString(1, cedula);
 
-                    try (var resultSet = statement.executeQuery()) {
-                        if (resultSet.next()) {
-                            out.println("<h3>Resultados:</h3>");
-                            do {
-                                out.println("<p>Cedula: " + resultSet.getInt("cedula")
-                                        + ", Nombre: " + resultSet.getString("nombre")
-                                        + ", Teléfono: " + resultSet.getString("telefono")
-                                        + ", Email: " + resultSet.getString("email") + "</p>");
-                            } while (resultSet.next());
-                        } else {
-                            out.println("<h3>No se encontraron resultados para: " + nombre + "</h3>");
-                        }
+                    var resultSet = statement.executeQuery();
+                    if (resultSet.next()) {
+                        // Extraer datos del miembro encontrado
+                        String nombre = resultSet.getString("nombre");
+                        String telefono = resultSet.getString("telefono");
+                        String email = resultSet.getString("email");
+
+                        // Mostrar los datos al cliente
+                        out.println("<h3>Información del miembro:</h3>");
+                        out.println("<p>Cédula: " + cedula + "</p>");
+                        out.println("<p>Nombre: " + nombre + "</p>");
+                        out.println("<p>Teléfono: " + telefono + "</p>");
+                        out.println("<p>Email: " + email + "</p>");
+                    } else {
+                        out.println("<h3>No se encontró un miembro con la cédula proporcionada.</h3>");
                     }
                 }
-                con.cerrar();  // Cerrar la conexión
+                con.cerrar(); // Cerrar la conexión
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -129,9 +132,8 @@ public class ClienteServlet extends HttpServlet {
             } catch (Exception e) {
                 out.println("<h3>Error inesperado: " + e.getMessage() + "</h3>");
             }
-        } else {
-            out.println("<h3>Acción no válida.</h3>");
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
