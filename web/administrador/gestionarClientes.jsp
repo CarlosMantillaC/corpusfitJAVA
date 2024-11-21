@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true" %>
+
+
 <!DOCTYPE html>
 
 <html>
@@ -17,11 +20,11 @@
 
         <div class="container-contact100">
             <div class="wrap-contact100">
-                                <form class="contact100-form validate-form" action="../ClienteServlet" method="post" id="formulario">
+                <form class="contact100-form validate-form" action="../ClienteServlet" method="post" id="formulario">
                     <span class="contact100-form-title">
                         Registro de Miembros
                     </span>
-                    
+
                     <div class="wrap-input100">
                         <input class="input100" type="text" name="cedula" placeholder="Cedula" maxlength="100"
                                value="${cedula != null ? cedula : ''}" id="cedula">
@@ -57,7 +60,7 @@
                         <button class="contact100-form-btn" type="submit" name="accion" value="buscar" onclick="validarFormulario(event, 'buscar')">
                             Buscar
                         </button>
-                        <button class="contact100-form-btn" type="reset" name="accion" value="nuevo">
+                        <button class="contact100-form-btn" type="submit" name="accion" value="nuevo">
                             Nuevo
                         </button>
                     </div>
@@ -69,7 +72,7 @@
         <jsp:include page="../getintouch.jsp"/>
         <jsp:include page="../footer.jsp"/>
         <jsp:include page="../search.jsp"/>
-        
+
         <script>
             function validarFormulario(event, accion) {
                 // Limpiar mensajes previos
@@ -92,6 +95,25 @@
                 }
             }
         </script>
+
+
+        <%
+            // Recuperar el mensaje de la sesión
+            String mensaje = (String) session.getAttribute("mensaje");
+
+            // Verifica si existe un mensaje
+            if (mensaje != null && !mensaje.isEmpty()) {
+                session.removeAttribute("mensaje"); // Limpiar el mensaje de la sesión
+%>
+
+        <%-- Mostrar la alerta solo si el mensaje no es null --%>
+        <script>
+            alert("<%= mensaje%>");
+        </script>
+
+        <%
+            }
+        %>
 
     </body>
 

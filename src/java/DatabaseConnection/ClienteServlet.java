@@ -15,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -49,53 +50,57 @@ public class ClienteServlet extends HttpServlet {
         // Crear una instancia de ConexionBd
         ConexionBd con = new ConexionBd(DB_IP, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD);
 
-        // Acción de registrar un nuevo miembro
         if ("registrar".equalsIgnoreCase(accion)) {
             String cedula = request.getParameter("cedula");
             String nombre = request.getParameter("nombre");
             String telefono = request.getParameter("telefono");
             String email = request.getParameter("email");
 
+            String mensaje = null;
+
             if (nombre == null || nombre.isEmpty()) {
-                out.println("<h3>El nombre es obligatorio.</h3>");
-                return;
-            }
+                mensaje = "El nombre es obligatorio.";
+            } else {
+                try {
+                    con.ConexionBdMySQL();
+                    String query = "INSERT INTO miembros (cedula, nombre, telefono, email) VALUES (?, ?, ?, ?)";
+                    try (PreparedStatement statement = con.getConexionBd().prepareStatement(query)) {
+                        statement.setString(1, cedula);
+                        statement.setString(2, nombre);
+                        statement.setString(3, telefono);
+                        statement.setString(4, email);
 
-            // Realizar la conexión a la base de datos y registrar el nuevo miembro
-            try {
-                // Conectar a la base de datos MySQL
-                con.ConexionBdMySQL();
-
-                String query = "INSERT INTO miembros (cedula, nombre, telefono, email) VALUES (?, ?, ?, ?)";
-                try (PreparedStatement statement = con.getConexionBd().prepareStatement(query)) {
-                    statement.setString(1, cedula);
-                    statement.setString(2, nombre);
-                    statement.setString(3, telefono);
-                    statement.setString(4, email);
-
-                    int rowsInserted = statement.executeUpdate();
-                    if (rowsInserted > 0) {
-                        out.println("<h3>Registro exitoso.</h3>");
-                    } else {
-                        out.println("<h3>Error al registrar el miembro.</h3>");
+                        int rowsInserted = statement.executeUpdate();
+                        if (rowsInserted > 0) {
+                            mensaje = "Registro exitoso.";
+                        } else {
+                            mensaje = "Error al registrar el miembro.";
+                        }
                     }
+                    con.cerrar();
+                } catch (SQLException e) {
+                    mensaje = "Error al conectar con la base de datos: " + e.getMessage();
+                } catch (Exception e) {
+                    mensaje = "Error inesperado: " + e.getMessage();
                 }
-                con.cerrar();  // Cerrar la conexión
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                out.println("<h3>Error al conectar con la base de datos: " + e.getMessage() + "</h3>");
-            } catch (Exception e) {
-                out.println("<h3>Error inesperado: " + e.getMessage() + "</h3>");
             }
+
+            // Asegurarse de que el mensaje no es null antes de guardarlo en la sesión
+            if (mensaje != null && !mensaje.isEmpty()) {
+                HttpSession session = request.getSession();
+                session.setAttribute("mensaje", mensaje); // Guardar mensaje en la sesión
+            }
+
+            // Redirigir a gestionarClientes.jsp
+            response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
         }
 
-        // Acción de buscar un miembro
         if ("buscar".equalsIgnoreCase(accion)) {
             String cedula = request.getParameter("cedula");
 
             if (cedula == null || cedula.isEmpty()) {
-                out.println("<h3>La cédula es obligatoria para buscar.</h3>");
+                request.setAttribute("mensaje", "La cédula es obligatoria para buscar.");
+                response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
                 return;
             }
 
@@ -114,26 +119,43 @@ public class ClienteServlet extends HttpServlet {
                         String telefono = resultSet.getString("telefono");
                         String email = resultSet.getString("email");
 
-                        // Mostrar los datos al cliente
-                        out.println("<h3>Información del miembro:</h3>");
-                        out.println("<p>Cédula: " + cedula + "</p>");
-                        out.println("<p>Nombre: " + nombre + "</p>");
-                        out.println("<p>Teléfono: " + telefono + "</p>");
-                        out.println("<p>Email: " + email + "</p>");
+                        // Almacenar en la sesión
+                        HttpSession session_actual = request.getSession();
+                        session_actual.setAttribute("cedula", cedula);
+                        session_actual.setAttribute("nombre", nombre);
+                        session_actual.setAttribute("telefono", telefono);
+                        session_actual.setAttribute("email", email);
+
+                        // Redirigir a gestionarClientes.jsp para que los datos se muestren
+                        response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
                     } else {
-                        out.println("<h3>No se encontró un miembro con la cédula proporcionada.</h3>");
+                        request.setAttribute("mensaje", "No se encontró un miembro con la cédula proporcionada.");
+                        response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
                     }
                 }
-                con.cerrar(); // Cerrar la conexión
 
             } catch (SQLException e) {
                 e.printStackTrace();
-                out.println("<h3>Error al buscar en la base de datos: " + e.getMessage() + "</h3>");
+                request.setAttribute("mensaje", "Error al buscar en la base de datos: " + e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
             } catch (Exception e) {
-                out.println("<h3>Error inesperado: " + e.getMessage() + "</h3>");
+                request.setAttribute("mensaje", "Error inesperado: " + e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
             }
         }
 
+        if ("nuevo".equals(request.getParameter("accion"))) {
+            // Limpiar los datos de sesión
+            HttpSession session = request.getSession();
+            session.removeAttribute("cedula");
+            session.removeAttribute("nombre");
+            session.removeAttribute("telefono");
+            session.removeAttribute("email");
+
+            // Redirigir de nuevo a gestionarClientes.jsp
+            response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
+            return;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
