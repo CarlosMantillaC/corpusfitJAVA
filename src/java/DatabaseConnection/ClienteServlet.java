@@ -156,6 +156,44 @@ public class ClienteServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
             return;
         }
+
+        if ("eliminar".equalsIgnoreCase(accion)) {
+            String cedula = request.getParameter("cedula");
+
+            String mensaje = ""; // Mensaje para mostrar el resultado de la operación
+
+            if (cedula == null || cedula.isEmpty()) {
+                mensaje = "La cédula es obligatoria para eliminar.";
+            } else {
+                try {
+                    con.ConexionBdMySQL();
+
+                    String query = "DELETE FROM miembros WHERE cedula = ?";
+                    try (PreparedStatement statement = con.getConexionBd().prepareStatement(query)) {
+                        statement.setString(1, cedula);
+
+                        int rowsDeleted = statement.executeUpdate();
+                        if (rowsDeleted > 0) {
+                            mensaje = "Miembro eliminado exitosamente.";
+                        } else {
+                            mensaje = "No se encontró ningún miembro con esa cédula.";
+                        }
+                    }
+                    con.cerrar();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    mensaje = "Error al conectar con la base de datos: " + e.getMessage();
+                } catch (Exception e) {
+                    mensaje = "Error inesperado: " + e.getMessage();
+                }
+            }
+
+            // Guardar el mensaje en la sesión y redirigir
+            HttpSession session = request.getSession();
+            session.setAttribute("mensaje", mensaje);
+            response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -54,7 +54,7 @@
                         <button class="contact100-form-btn" type="submit" name="accion" value="registrar" onclick="validarFormulario(event, 'registrar')">
                             Registrar
                         </button>
-                        <button class="contact100-form-btn" type="button" name="accion" value="eliminar">
+                        <button class="contact100-form-btn" type="submit" name="accion" value="eliminar" onclick="validarEliminar(event)">
                             Eliminar
                         </button>
                         <button class="contact100-form-btn" type="submit" name="accion" value="buscar" onclick="validarFormulario(event, 'buscar')">
@@ -104,7 +104,7 @@
             // Verifica si existe un mensaje
             if (mensaje != null && !mensaje.isEmpty()) {
                 session.removeAttribute("mensaje"); // Limpiar el mensaje de la sesión
-%>
+        %>
 
         <%-- Mostrar la alerta solo si el mensaje no es null --%>
         <script>
@@ -115,6 +115,18 @@
             }
         %>
 
+        <script>
+            function validarEliminar(event) {
+                let cedula = document.getElementById('cedula').value.trim();
+
+                if (!cedula) {
+                    alert('Por favor, ingresa la cédula para eliminar.');
+                    event.preventDefault();
+                } else if (!confirm('¿Estás seguro de que deseas eliminar este miembro?')) {
+                    event.preventDefault();
+                }
+            }
+        </script>
     </body>
 
 </html>
