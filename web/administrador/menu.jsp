@@ -64,7 +64,7 @@
                                 <a href="#">Actividades</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Gestionar Actividades</a></li>
-                                    <li><a href="#">Gestionar Instructores</a></li>
+                                    <li><a href="gestionarInstructores.jsp">Gestionar Instructores</a></li>
                                     <li><a href="#">Gestionar Horarios</a></li>
                                 </ul>
                             </li>
