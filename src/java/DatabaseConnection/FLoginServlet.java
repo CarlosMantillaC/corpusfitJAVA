@@ -6,8 +6,6 @@ package DatabaseConnection;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import jakarta.servlet.ServletException;
@@ -21,8 +19,8 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author Pc
  */
-@WebServlet(name = "InstructorServlet", urlPatterns = {"/InstructorServlet"})
-public class InstructorServlet extends HttpServlet {
+@WebServlet(name = "FLoginServlet", urlPatterns = {"/FLoginServlet"})
+public class FLoginServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +42,6 @@ public class InstructorServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
         PrintWriter out = response.getWriter();
         String accion = request.getParameter("accion");
 
@@ -52,30 +49,31 @@ public class InstructorServlet extends HttpServlet {
         ConexionBd con = new ConexionBd(DB_IP, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD);
 
         if ("registrar".equalsIgnoreCase(accion)) {
-            String id = request.getParameter("id_instructor");
             String nombre = request.getParameter("nombre");
-            String telefono = request.getParameter("telefono");
-            String email = request.getParameter("email");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String rol = request.getParameter("rol");
 
             String mensaje = null;
 
-            if (id == null || id.isEmpty() || nombre == null || nombre.isEmpty()) {
-                mensaje = "ID y Nombre son obligatorios.";
+            if (nombre == null || nombre.isEmpty() || username == null || username.isEmpty()
+                    || password == null || password.isEmpty() || rol == null || rol.isEmpty()) {
+                mensaje = "Todos los campos son obligatorios.";
             } else {
                 try {
                     con.ConexionBdMySQL();
-                    String query = "INSERT INTO instructores (id_instructor, nombre, telefono, email) VALUES (?, ?, ?, ?)";
+                    String query = "INSERT INTO login (nombre, username, password, rol) VALUES (?, ?, ?, ?)";
                     try (PreparedStatement statement = con.getConexionBd().prepareStatement(query)) {
-                        statement.setInt(1, Integer.parseInt(id));
-                        statement.setString(2, nombre);
-                        statement.setString(3, telefono);
-                        statement.setString(4, email);
+                        statement.setString(1, nombre);
+                        statement.setString(2, username);
+                        statement.setString(3, password);
+                        statement.setString(4, rol);
 
                         int rowsInserted = statement.executeUpdate();
                         if (rowsInserted > 0) {
-                            mensaje = "Registro exitoso.";
+                            mensaje = "Usuario registrado exitosamente.";
                         } else {
-                            mensaje = "Error al registrar el miembro.";
+                            mensaje = "Error al registrar el usuario.";
                         }
                     }
                     con.cerrar();
@@ -86,50 +84,50 @@ public class InstructorServlet extends HttpServlet {
                 }
             }
 
-            // Asegurarse de que el mensaje no es null antes de guardarlo en la sesión
             if (mensaje != null && !mensaje.isEmpty()) {
                 HttpSession session = request.getSession();
-                session.setAttribute("mensaje", mensaje); // Guardar mensaje en la sesión
+                session.setAttribute("mensaje", mensaje);
             }
 
-            // Redirigir a gestionarClientes.jsp
-            response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
+            response.sendRedirect(request.getContextPath() + "/administrador/gestionarLogin.jsp");
         }
 
         if ("modificar".equalsIgnoreCase(accion)) {
-            String id_instructor = request.getParameter("id_instructor");
             String nombre = request.getParameter("nombre");
-            String telefono = request.getParameter("telefono");
-            String email = request.getParameter("email");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String rol = request.getParameter("rol");
             String mensaje = null;
 
-            if (id_instructor == null || id_instructor.isEmpty() || nombre == null || nombre.isEmpty()) {
-                mensaje = "El ID del instructor y el nombre son obligatorios para modificar.";
+            if (nombre == null || nombre.isEmpty() || username == null || username.isEmpty()
+                    || password == null || password.isEmpty() || rol == null || rol.isEmpty()) {
+                mensaje = "Todos los campos son obligatorios para modificar.";
             } else {
                 try {
                     con.ConexionBdMySQL();
-                    // Primero verificamos si el instructor existe
-                    String checkQuery = "SELECT COUNT(*) FROM instructores WHERE id_instructor = ?";
+                    // Primero verificamos si el usuario existe
+                    String checkQuery = "SELECT COUNT(*) FROM login WHERE username = ?";
                     try (PreparedStatement checkStmt = con.getConexionBd().prepareStatement(checkQuery)) {
-                        checkStmt.setString(1, id_instructor);
+                        checkStmt.setString(1, username);
                         var rs = checkStmt.executeQuery();
                         if (rs.next() && rs.getInt(1) > 0) {
-                            // El instructor existe, procedemos a actualizar
-                            String updateQuery = "UPDATE instructores SET nombre = ?, telefono = ?, email = ? WHERE id_instructor = ?";
+                            // El usuario existe, procedemos a actualizar
+                            String updateQuery = "UPDATE login SET nombre = ?, password = ?, rol = ? WHERE username = ?";
                             try (PreparedStatement updateStmt = con.getConexionBd().prepareStatement(updateQuery)) {
                                 updateStmt.setString(1, nombre);
-                                updateStmt.setString(2, telefono);
-                                updateStmt.setString(3, email);
-                                updateStmt.setString(4, id_instructor);
+                                updateStmt.setString(2, password);
+                                updateStmt.setString(3, rol);
+                                updateStmt.setString(4, username);
+
                                 int rowsUpdated = updateStmt.executeUpdate();
                                 if (rowsUpdated > 0) {
-                                    mensaje = "Instructor actualizado exitosamente.";
+                                    mensaje = "Usuario actualizado exitosamente.";
                                 } else {
-                                    mensaje = "Error al actualizar el instructor.";
+                                    mensaje = "Error al actualizar el usuario.";
                                 }
                             }
                         } else {
-                            mensaje = "No se encontró el instructor para modificar.";
+                            mensaje = "No se encontró el usuario para modificar.";
                         }
                     }
                     con.cerrar();
@@ -139,109 +137,104 @@ public class InstructorServlet extends HttpServlet {
                     mensaje = "Error inesperado: " + e.getMessage();
                 }
             }
+
             HttpSession session = request.getSession();
             session.setAttribute("mensaje", mensaje);
-            response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
+            response.sendRedirect(request.getContextPath() + "/administrador/gestionarLogin.jsp");
         }
 
         if ("buscar".equalsIgnoreCase(accion)) {
-            String id = request.getParameter("id_instructor");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
 
-            if (id == null || id.isEmpty()) {
-                request.setAttribute("mensaje", "El ID es obligatorio para buscar.");
-                response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
+            if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+                HttpSession session = request.getSession();
+                session.setAttribute("mensaje", "El nombre de usuario y la contraseña son obligatorios para buscar.");
+                response.sendRedirect(request.getContextPath() + "/administrador/gestionarLogin.jsp");
                 return;
             }
 
             try {
-                // Conectar a la base de datos MySQL
                 con.ConexionBdMySQL();
-
-                String query = "SELECT * FROM instructores WHERE id_instructor = ?";
+                String query = "SELECT * FROM login WHERE username = ? AND password = ?";
                 try (PreparedStatement statement = con.getConexionBd().prepareStatement(query)) {
-                    statement.setInt(1, Integer.parseInt(id));
+                    statement.setString(1, username);
+                    statement.setString(2, password);
 
                     var resultSet = statement.executeQuery();
                     if (resultSet.next()) {
-                        // Extraer datos del miembro encontrado
-                        String id_instructor = resultSet.getString("id_instructor");
                         String nombre = resultSet.getString("nombre");
-                        String telefono = resultSet.getString("telefono");
-                        String email = resultSet.getString("email");
+                        String rol = resultSet.getString("rol");
 
-                        // Almacenar en la sesión
                         HttpSession session_actual = request.getSession();
-                        session_actual.setAttribute("id_instructor", id_instructor);
                         session_actual.setAttribute("nombre", nombre);
-                        session_actual.setAttribute("telefono", telefono);
-                        session_actual.setAttribute("email", email);
+                        session_actual.setAttribute("username", username);
+                        session_actual.setAttribute("password", password);
+                        session_actual.setAttribute("rol", rol);
 
-                        // Redirigir a gestionarClientes.jsp para que los datos se muestren
-                        response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
+                        response.sendRedirect(request.getContextPath() + "/administrador/gestionarLogin.jsp");
                     } else {
-                        request.setAttribute("mensaje", "No se encontró un instructor con la cédula proporcionada.");
-                        response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
+                        HttpSession session = request.getSession();
+                        session.setAttribute("mensaje", "No se encontró el usuario con las credenciales proporcionadas.");
+                        response.sendRedirect(request.getContextPath() + "/administrador/gestionarLogin.jsp");
                     }
                 }
 
             } catch (SQLException e) {
-                e.printStackTrace();
-                request.setAttribute("mensaje", "Error al buscar en la base de datos: " + e.getMessage());
-                response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
+                HttpSession session = request.getSession();
+                session.setAttribute("mensaje", "Error al buscar en la base de datos: " + e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/administrador/gestionarLogin.jsp");
             } catch (Exception e) {
-                request.setAttribute("mensaje", "Error inesperado: " + e.getMessage());
-                response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
+                HttpSession session = request.getSession();
+                session.setAttribute("mensaje", "Error inesperado: " + e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/administrador/gestionarLogin.jsp");
             }
         }
 
         if ("nuevo".equals(request.getParameter("accion"))) {
-            // Limpiar los datos de sesión
             HttpSession session = request.getSession();
-            session.removeAttribute("id_instructor");
             session.removeAttribute("nombre");
-            session.removeAttribute("telefono");
-            session.removeAttribute("email");
+            session.removeAttribute("username");
+            session.removeAttribute("password");
+            session.removeAttribute("rol");
 
-            // Redirigir de nuevo a gestionarClientes.jsp
-            response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
+            response.sendRedirect(request.getContextPath() + "/administrador/gestionarLogin.jsp");
             return;
         }
 
         if ("eliminar".equalsIgnoreCase(accion)) {
-            String id = request.getParameter("id_instructor");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String mensaje = "";
 
-            String mensaje = ""; // Mensaje para mostrar el resultado de la operación
-
-            if (id == null || id.isEmpty()) {
-                mensaje = "El ID es obligatorio para eliminar.";
+            if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+                mensaje = "El nombre de usuario y la contraseña son obligatorios para eliminar.";
             } else {
                 try {
                     con.ConexionBdMySQL();
-
-                    String query = "DELETE FROM instructores WHERE id_instructor = ?";
+                    String query = "DELETE FROM login WHERE username = ? AND password = ?";
                     try (PreparedStatement statement = con.getConexionBd().prepareStatement(query)) {
-                        statement.setInt(1, Integer.parseInt(id));
+                        statement.setString(1, username);
+                        statement.setString(2, password);
 
                         int rowsDeleted = statement.executeUpdate();
                         if (rowsDeleted > 0) {
-                            mensaje = "Instructor eliminado exitosamente.";
+                            mensaje = "Usuario eliminado exitosamente.";
                         } else {
-                            mensaje = "No se encontró ningún miembro con esa cédula.";
+                            mensaje = "No se encontró ningún usuario con esas credenciales.";
                         }
                     }
                     con.cerrar();
                 } catch (SQLException e) {
-                    e.printStackTrace();
                     mensaje = "Error al conectar con la base de datos: " + e.getMessage();
                 } catch (Exception e) {
                     mensaje = "Error inesperado: " + e.getMessage();
                 }
             }
 
-            // Guardar el mensaje en la sesión y redirigir
             HttpSession session = request.getSession();
             session.setAttribute("mensaje", mensaje);
-            response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
+            response.sendRedirect(request.getContextPath() + "/administrador/gestionarLogin.jsp");
         }
     }
 

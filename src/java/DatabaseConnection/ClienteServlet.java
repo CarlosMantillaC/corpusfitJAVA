@@ -95,6 +95,55 @@ public class ClienteServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
         }
 
+        if ("modificar".equalsIgnoreCase(accion)) {
+            String cedula = request.getParameter("cedula");
+            String nombre = request.getParameter("nombre");
+            String telefono = request.getParameter("telefono");
+            String email = request.getParameter("email");
+            String mensaje = null;
+
+            if (cedula == null || cedula.isEmpty() || nombre == null || nombre.isEmpty()
+                    || telefono == null || telefono.isEmpty() || email == null || email.isEmpty()) {
+                mensaje = "Todos los campos son obligatorios para modificar.";
+            } else {
+                try {
+                    con.ConexionBdMySQL();
+                    // Primero verificamos si el cliente existe
+                    String checkQuery = "SELECT COUNT(*) FROM miembros WHERE cedula = ?";
+                    try (PreparedStatement checkStmt = con.getConexionBd().prepareStatement(checkQuery)) {
+                        checkStmt.setString(1, cedula);
+                        var rs = checkStmt.executeQuery();
+                        if (rs.next() && rs.getInt(1) > 0) {
+                            // El cliente existe, procedemos a actualizar
+                            String updateQuery = "UPDATE miembros SET nombre = ?, telefono = ?, email = ? WHERE cedula = ?";
+                            try (PreparedStatement updateStmt = con.getConexionBd().prepareStatement(updateQuery)) {
+                                updateStmt.setString(1, nombre);
+                                updateStmt.setString(2, telefono);
+                                updateStmt.setString(3, email);
+                                updateStmt.setString(4, cedula);
+                                int rowsUpdated = updateStmt.executeUpdate();
+                                if (rowsUpdated > 0) {
+                                    mensaje = "Cliente actualizado exitosamente.";
+                                } else {
+                                    mensaje = "Error al actualizar el cliente.";
+                                }
+                            }
+                        } else {
+                            mensaje = "No se encontró el cliente para modificar.";
+                        }
+                    }
+                    con.cerrar();
+                } catch (SQLException e) {
+                    mensaje = "Error al conectar con la base de datos: " + e.getMessage();
+                } catch (Exception e) {
+                    mensaje = "Error inesperado: " + e.getMessage();
+                }
+            }
+            HttpSession session = request.getSession();
+            session.setAttribute("mensaje", mensaje);
+            response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
+        }
+
         if ("buscar".equalsIgnoreCase(accion)) {
             String cedula = request.getParameter("cedula");
 

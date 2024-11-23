@@ -52,6 +52,9 @@
                         <button class="contact100-form-btn" type="submit" name="accion" value="registrar" onclick="validarFormulario(event, 'registrar')">
                             Registrar
                         </button>
+                        <button class="contact100-form-btn" type="submit" name="accion" value="modificar" onclick="validarFormulario(event, 'modificar')">
+                            Modificar
+                        </button>
                         <button class="contact100-form-btn" type="submit" name="accion" value="eliminar" onclick="validarEliminar(event)">
                             Eliminar
                         </button>
@@ -82,7 +85,7 @@
                         alert('Por favor, ingresa el ID del instructor.');
                         event.preventDefault();
                     }
-                } else if (accion === 'registrar') {
+                } else if (accion === 'registrar' || accion === 'modificar') {
                     if (!id_instructor || !nombre) {
                         alert('Por favor, completa al menos el ID del instructor y el nombre.');
                         event.preventDefault();

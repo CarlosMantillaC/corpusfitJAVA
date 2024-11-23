@@ -212,6 +212,40 @@ iframe {
     -ms-box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); /* Sombra más visible */
 }
 
+select {
+    outline: none;
+    border: none;
+    display: block;
+    width: 100%;
+    background: transparent;
+    font-family: SourceSansPro-Bold;
+    font-size: 16px;
+    color: #4b2354;
+    line-height: 1.2;
+    height: 62px; /* Igual que el input */
+    padding: 0 20px 0 23px; /* Mismo padding */
+    border-radius: 20px; /* Igual que el borde del input */
+    box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); /* Sombra */
+    -moz-box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); 
+    -webkit-box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); 
+    -o-box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); 
+    -ms-box-shadow: 0 6px 30px 0px rgba(0, 0, 0, 0.3); 
+}
+
+/* Cambiar estilos cuando el select está enfocado */
+select:focus {
+    box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.15);
+    -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.15);
+    -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+/* Placeholder del select para que combine con el input */
+select option {
+    color: #999999;
+}
+
 .input100 {
     display: block;
     width: 100%;

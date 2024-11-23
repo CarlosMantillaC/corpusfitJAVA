@@ -54,6 +54,9 @@
                         <button class="contact100-form-btn" type="submit" name="accion" value="registrar" onclick="validarFormulario(event, 'registrar')">
                             Registrar
                         </button>
+                        <button class="contact100-form-btn" type="submit" name="accion" value="modificar" onclick="validarFormulario(event, 'modificar')">
+                            Modificar
+                        </button>
                         <button class="contact100-form-btn" type="submit" name="accion" value="eliminar" onclick="validarEliminar(event)">
                             Eliminar
                         </button>
@@ -62,7 +65,6 @@
                         </button>
                         <button class="contact100-form-btn" type="submit" name="accion" value="nuevo">
                             Nuevo
-                        </button>
                     </div>
                 </form>
 
@@ -87,7 +89,7 @@
                         alert('Por favor, ingresa la cédula para buscar.');
                         event.preventDefault();
                     }
-                } else if (accion === 'registrar') {
+                } else if (accion === 'registrar' || accion === 'modificar') {
                     if (!cedula || !nombre || !telefono || !email) {
                         alert('Por favor, completa todos los campos para registrar.');
                         event.preventDefault();
@@ -104,7 +106,7 @@
             // Verifica si existe un mensaje
             if (mensaje != null && !mensaje.isEmpty()) {
                 session.removeAttribute("mensaje"); // Limpiar el mensaje de la sesión
-        %>
+%>
 
         <%-- Mostrar la alerta solo si el mensaje no es null --%>
         <script>
