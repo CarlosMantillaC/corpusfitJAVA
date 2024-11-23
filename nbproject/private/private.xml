@@ -6,6 +6,9 @@
             <file>file:/C:/Users/Pc/Documents/NetBeansProjects/corpusfitJAVA/web/administrador/gestionarClientes.jsp</file>
             <file>file:/C:/Users/Pc/Documents/NetBeansProjects/corpusfitJAVA/web/administrador/index.jsp</file>
             <file>file:/C:/Users/Pc/Documents/NetBeansProjects/corpusfitJAVA/web/login.jsp</file>
+            <file>file:/C:/Users/Pc/Documents/NetBeansProjects/corpusfitJAVA/web/administrador/gestionarInstructores.jsp</file>
+            <file>file:/C:/Users/Pc/Documents/NetBeansProjects/corpusfitJAVA/src/java/DatabaseConnection/InstructorServlet.java</file>
+            <file>file:/C:/Users/Pc/Documents/NetBeansProjects/corpusfitJAVA/src/java/DatabaseConnection/ClienteServlet.java</file>
         </group>
     </open-files>
 </project-private>

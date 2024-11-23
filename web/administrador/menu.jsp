@@ -56,6 +56,8 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Gestionar Asistencias</a></li>
                                     <li><a href="gestionarClientes.jsp">Gestionar Clientes</a></li>
+                                    <li><a href="gestionarLogin.jsp">Gestionar Login</a></li>
+
                                 </ul>
                             </li>
 

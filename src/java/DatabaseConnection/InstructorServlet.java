@@ -97,11 +97,11 @@ public class InstructorServlet extends HttpServlet {
         }
 
         if ("buscar".equalsIgnoreCase(accion)) {
-            String cedula = request.getParameter("cedula");
+            String id = request.getParameter("id_instructor");
 
-            if (cedula == null || cedula.isEmpty()) {
-                request.setAttribute("mensaje", "La cédula es obligatoria para buscar.");
-                response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
+            if (id == null || id.isEmpty()) {
+                request.setAttribute("mensaje", "El ID es obligatorio para buscar.");
+                response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
                 return;
             }
 
@@ -109,73 +109,75 @@ public class InstructorServlet extends HttpServlet {
                 // Conectar a la base de datos MySQL
                 con.ConexionBdMySQL();
 
-                String query = "SELECT * FROM miembros WHERE cedula = ?";
+                String query = "SELECT * FROM instructores WHERE id_instructor = ?";
                 try (PreparedStatement statement = con.getConexionBd().prepareStatement(query)) {
-                    statement.setString(1, cedula);
+                    statement.setInt(1, Integer.parseInt(id));
 
                     var resultSet = statement.executeQuery();
                     if (resultSet.next()) {
                         // Extraer datos del miembro encontrado
+                        String id_instructor = resultSet.getString("id_instructor");
                         String nombre = resultSet.getString("nombre");
                         String telefono = resultSet.getString("telefono");
                         String email = resultSet.getString("email");
 
+
                         // Almacenar en la sesión
                         HttpSession session_actual = request.getSession();
-                        session_actual.setAttribute("cedula", cedula);
+                        session_actual.setAttribute("id_instructor", id_instructor);
                         session_actual.setAttribute("nombre", nombre);
                         session_actual.setAttribute("telefono", telefono);
                         session_actual.setAttribute("email", email);
 
                         // Redirigir a gestionarClientes.jsp para que los datos se muestren
-                        response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
+                        response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
                     } else {
-                        request.setAttribute("mensaje", "No se encontró un miembro con la cédula proporcionada.");
-                        response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
+                        request.setAttribute("mensaje", "No se encontró un instructor con la cédula proporcionada.");
+                        response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
                     }
                 }
 
             } catch (SQLException e) {
                 e.printStackTrace();
                 request.setAttribute("mensaje", "Error al buscar en la base de datos: " + e.getMessage());
-                response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
+                response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
             } catch (Exception e) {
                 request.setAttribute("mensaje", "Error inesperado: " + e.getMessage());
-                response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
+                response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
             }
         }
 
         if ("nuevo".equals(request.getParameter("accion"))) {
             // Limpiar los datos de sesión
             HttpSession session = request.getSession();
-            session.removeAttribute("cedula");
+            session.removeAttribute("id_instructor");
             session.removeAttribute("nombre");
             session.removeAttribute("telefono");
             session.removeAttribute("email");
 
             // Redirigir de nuevo a gestionarClientes.jsp
-            response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
+            response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
             return;
         }
 
         if ("eliminar".equalsIgnoreCase(accion)) {
-            String cedula = request.getParameter("cedula");
+            String id = request.getParameter("id_instructor");
 
             String mensaje = ""; // Mensaje para mostrar el resultado de la operación
 
-            if (cedula == null || cedula.isEmpty()) {
-                mensaje = "La cédula es obligatoria para eliminar.";
+            if (id == null || id.isEmpty()) {
+                mensaje = "El ID es obligatorio para eliminar.";
             } else {
                 try {
                     con.ConexionBdMySQL();
 
-                    String query = "DELETE FROM miembros WHERE cedula = ?";
+                    String query = "DELETE FROM instructores WHERE id_instructor = ?";
                     try (PreparedStatement statement = con.getConexionBd().prepareStatement(query)) {
-                        statement.setString(1, cedula);
+                        statement.setInt(1, Integer.parseInt(id));
 
                         int rowsDeleted = statement.executeUpdate();
                         if (rowsDeleted > 0) {
-                            mensaje = "Miembro eliminado exitosamente.";
+                            mensaje = "Instructor eliminado exitosamente.";
                         } else {
                             mensaje = "No se encontró ningún miembro con esa cédula.";
                         }
@@ -192,7 +194,7 @@ public class InstructorServlet extends HttpServlet {
             // Guardar el mensaje en la sesión y redirigir
             HttpSession session = request.getSession();
             session.setAttribute("mensaje", mensaje);
-            response.sendRedirect(request.getContextPath() + "/administrador/gestionarClientes.jsp");
+            response.sendRedirect(request.getContextPath() + "/administrador/gestionarInstructores.jsp");
         }
     }
 
