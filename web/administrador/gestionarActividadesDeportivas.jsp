@@ -1,6 +1,6 @@
 <%-- 
-    Document   : gestionarLogin
-    Created on : 23/11/2024, 6:58:29 a. m.
+    Document   : gestionarActividadesDeportivas
+    Created on : 23/11/2024, 12:32:48 p. m.
     Author     : Pc
 --%>
 
@@ -8,50 +8,52 @@
 <%@page session="true" %>
 
 <!DOCTYPE html>
-
 <html>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/forms.css" type="text/css">
     <jsp:include page="../head.jsp"/>
     <jsp:include page="menu.jsp"/>
-    <title>Corpusfit - Admin Usuarios</title>
+    <title>Corpusfit - Admin Instructores</title>
 
     <body oncontextmenu='return false' class='snippet-body'>
-
         <div class="container-contact100">
             <div class="wrap-contact100">
-                <form class="contact100-form validate-form" action="../FLoginServlet" method="post" id="formulario">
+                <form class="contact100-form validate-form" action="../ActividadDeportivaServlet" method="post" id="formulario">
                     <span class="contact100-form-title">
-                        Gestión de Login
+                        Gestión de Actividades Deportivas
                     </span>
 
-                    <!-- Username -->
-                    <div class="wrap-input100">
-                        <input class="input100" type="text" name="username" placeholder="Correo" maxlength="50"
-                               value="${username != null ? username : ''}" id="username">
-                        <span class="focus-input100"></span>
-                    </div>
 
-                    <!-- Contraseña -->
                     <div class="wrap-input100">
-                        <input class="input100" type="password" name="password" placeholder="Contraseña" maxlength="255"
-                               value="${password != null ? password : ''}" id="password">
-                        <span class="focus-input100"></span>
-                    </div>
-
-                    <!-- Nombre -->
-                    <div class="wrap-input100">
-                        <input class="input100" type="text" name="nombre" placeholder="Nombre Completo" maxlength="200"
+                        <input class="input100" type="text" name="nombre" placeholder="Nombre de la Actividad" maxlength="100"
                                value="${nombre != null ? nombre : ''}" id="nombre">
                         <span class="focus-input100"></span>
                     </div>
 
-                    <!-- Rol -->
                     <div class="wrap-input100">
-                        <select class="input100" name="rol" id="rol">
-                            <option value="" disabled selected>Selecciona un rol</option>
-                            <option value="cliente" ${rol == "cliente" ? "selected" : ""}>Cliente</option>
-                            <option value="administrador" ${rol == "administrador" ? "selected" : ""}>Administrador</option>
+                        <textarea class="input100" name="descripcion" placeholder="Descripción" 
+                                  id="descripcion">${descripcion != null ? descripcion : ''}</textarea>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100">
+                        <input class="input100" type="text" name="tipo" placeholder="Tipo de Actividad" maxlength="50"
+                               value="${tipo != null ? tipo : ''}" id="tipo">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100">
+                        <select class="input100" name="nivel_dificultad" id="nivel_dificultad">
+                            <option value="" disabled selected>Seleccione el nivel de dificultad</option>
+                            <option value="Básico" ${nivel_dificultad == 'Básico' ? 'selected' : ''}>Básico</option>
+                            <option value="Intermedio" ${nivel_dificultad == 'Intermedio' ? 'selected' : ''}>Intermedio</option>
+                            <option value="Avanzado" ${nivel_dificultad == 'Avanzado' ? 'selected' : ''}>Avanzado</option>
                         </select>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100">
+                        <input class="input100" type="text" name="id_instructor" placeholder="ID del Instructor" maxlength="11"
+                               value="${id_instructor != null ? id_instructor : ''}" id="id_instructor">
                         <span class="focus-input100"></span>
                     </div>
 
@@ -83,38 +85,35 @@
 
         <script>
             function validarFormulario(event, accion) {
-                let id_usuario = document.getElementById('id_usuario').value.trim();
                 let nombre = document.getElementById('nombre').value.trim();
-                let username = document.getElementById('username').value.trim();
-                let password = document.getElementById('password').value.trim();
-                let rol = document.getElementById('rol').value.trim();
+                let nivel_dificultad = document.getElementById('nivel_dificultad').value.trim();
 
                 if (accion === 'buscar' || accion === 'eliminar') {
-                    if (!id_usuario) {
-                        alert('Por favor, ingresa el ID del usuario para continuar.');
+                    if (!nombre) {
+                        alert('Por favor, ingresa el Nombre de la actividad.');
                         event.preventDefault();
                     }
                 } else if (accion === 'registrar' || accion === 'modificar') {
-                    if (!id_usuario || !nombre || !username || !password || !rol) {
-                        alert('Por favor, completa todos los campos para registrar.');
+                    if (!nombre || !nivel_dificultad) {
+                        alert('Por favor, completa los campos obligatorios (nombre y nivel de dificultad).');
                         event.preventDefault();
                     }
                 }
             }
 
             function validarEliminar(event) {
-                let id_usuario = document.getElementById('id_usuario').value.trim();
-                if (!id_usuario) {
-                    alert('Por favor, ingresa el ID del usuario para eliminar.');
+                let nombre = document.getElementByNombre('nombre').value.trim();
+                if (!nombre) {
+                    alert('Por favor, ingresa el nombre de la actividad para eliminar.');
                     event.preventDefault();
-                } else if (!confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+                } else if (!confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
                     event.preventDefault();
                 }
             }
         </script>
 
+
         <%
-            // Mostrar mensajes desde la sesión
             String mensaje = (String) session.getAttribute("mensaje");
             if (mensaje != null && !mensaje.isEmpty()) {
                 session.removeAttribute("mensaje");
