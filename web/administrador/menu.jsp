@@ -54,7 +54,8 @@
                             <li class="dropdown">
                                 <a href="#">Clientes</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Gestionar Asistencias</a></li>
+                                    <li><a href="gestionarAsistenciaActividad.jsp">Gestionar Asistencia Actividad</a></li>
+                                    <li><a href="gestionarAsistenciaGeneral.jsp">Gestionar Asistencia General</a></li>
                                     <li><a href="gestionarClientes.jsp">Gestionar Clientes</a></li>
                                     <li><a href="gestionarLogin.jsp">Gestionar Login</a></li>
 
@@ -67,7 +68,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="gestionarActividadesDeportivas.jsp">Gestionar Actividades</a></li>
                                     <li><a href="gestionarInstructores.jsp">Gestionar Instructores</a></li>
-                                    <li><a href="#">Gestionar Horarios</a></li>
+                                    <li><a href="gestionarHorario.jsp">Gestionar Horarios</a></li>
                                 </ul>
                             </li>
                             
@@ -82,5 +83,4 @@
             </div>
         </div>
     </header>
-<!-- Header End -->
     <!-- Header End -->
