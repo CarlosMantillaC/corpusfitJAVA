@@ -2,6 +2,7 @@
 
 CorpusFit es un prototipo de aplicación web desarrollado para la gestión de actividades deportivas, horarios y seguimiento de asistencia en el gimnasio CorpusFit, ubicado en Cúcuta.
 
+Video Expositivo: https://drive.google.com/file/d/15Otn3_eC9Z2CxQ7PRATSHjdkyBtO5D7K/view?usp=drive_link
 ---
 
 ## **Objetivo General**  
